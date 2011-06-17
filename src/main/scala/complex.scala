@@ -21,7 +21,10 @@ abstract class Complex {
 
   override def toString = "("+real+", "+imag+" ["+magnitude+"e"+angle+"theta])"
 
-  def == (other:Complex) = real == other.real && imag == other.imag
+  override def equals (other:Any) = {
+    other.isInstanceOf[Complex] && real == other.asInstanceOf[Complex].real &&
+      imag == other.asInstanceOf[Complex].imag
+  }
 }
 
 class RectComplex(val real:Double, val imag:Double) extends Complex {
