@@ -3,7 +3,7 @@ package util {
 
 import scala.math.{sqrt, sin, cos, atan2}
 
-abstract class Complex {
+abstract class Complex extends Equals {
   val real:Double
   val imag:Double
   val magnitude:Double
@@ -22,8 +22,20 @@ abstract class Complex {
   override def toString = "("+real+", "+imag+" ["+magnitude+"e"+angle+"theta])"
 
   override def equals (other:Any) = {
-    other.isInstanceOf[Complex] && real == other.asInstanceOf[Complex].real &&
-      imag == other.asInstanceOf[Complex].imag
+    if (other.isInstanceOf[Complex]) {
+      val that = other.asInstanceOf[Complex]
+      that.canEqual(this) && real == that.real && imag == that.imag
+    } else {
+      false
+    }
+  }
+
+  override def canEqual(other:Any) = {
+    other.isInstanceOf[Complex]
+  }
+
+  override def hashCode = {
+    41 * (41 + real.toInt) + imag.toInt
   }
 }
 
